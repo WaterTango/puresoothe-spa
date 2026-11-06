@@ -1,4 +1,4 @@
-/* Pure Soothe Mobile Spa – shared stylesheet (v9) */
+/* Pure Soothe Mobile Spa – shared stylesheet (v10) */
 
 /* ---------- Fonts (self-hosted, no remote requests) ---------- */
 @font-face { font-family: "Cormorant Garamond"; font-weight: 600; font-style: normal; font-display: swap; src: url("../fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2"); }
@@ -531,3 +531,36 @@ main > section + section { border-top: 1px solid var(--gold); }
 
 /* #56 Contact button: Explore services */
 .contact-btn { min-height: 52px; gap: 10px; font-size: 20px; font-weight: 600; border-radius: 16px; } /* #56: matches .hotel-btn as built in v6 (20px; item text says 19px) */
+
+
+/* ================= v10 additions ================= */
+
+/* #59 section backgrounds: seamless 2x2 mirrored tile under an 80% cream wash. Mobile tile 780px wide, desktop 1440px (mobile layout breakpoint = 720px). No fixed attachment. */
+section[aria-labelledby="why-title"] {
+  background-color: #FBF3E4;
+  background-image: linear-gradient(rgba(255, 251, 242, 0.80), rgba(255, 251, 242, 0.80)), url(../images/bg-why.jpg);
+  background-repeat: repeat; background-position: 0 0; background-size: auto, 1440px auto;
+}
+#services {
+  background-color: #FBF3E4;
+  background-image: linear-gradient(rgba(251, 243, 228, 0.80), rgba(251, 243, 228, 0.80)), url(../images/bg-menu.jpg);
+  background-repeat: repeat; background-position: 0 0; background-size: auto, 1440px auto;
+}
+
+/* #60 Our Treatments (carousel section): same tile rotated 18deg on an oversize layer behind the content */
+section.quick { position: relative; overflow: hidden; background-color: #FBF3E4; }
+section.quick::before {
+  content: ""; position: absolute; left: -40%; right: -40%; top: -40%; bottom: -40%;
+  background-image: linear-gradient(rgba(255, 251, 242, 0.80), rgba(255, 251, 242, 0.80)), url(../images/bg-why.jpg);
+  background-repeat: repeat; background-size: auto, 1440px auto;
+  transform: rotate(18deg); pointer-events: none;
+}
+section.quick > * { position: relative; }
+
+@media (max-width: 720px) {
+  section[aria-labelledby="why-title"], #services { background-size: auto, 780px auto; }
+  section.quick::before { background-size: auto, 780px auto; }
+}
+
+/* Footer version line (M9 Footer version): text only, same colour as the copyright line */
+.footer .build-ver { margin: 12px 0 0; font-size: 14px; text-align: center; color: var(--white); }
