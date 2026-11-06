@@ -1,4 +1,4 @@
-/* Pure Soothe Mobile Spa – shared stylesheet (v6) */
+/* Pure Soothe Mobile Spa – shared stylesheet (v9) */
 
 /* ---------- Fonts (self-hosted, no remote requests) ---------- */
 @font-face { font-family: "Cormorant Garamond"; font-weight: 600; font-style: normal; font-display: swap; src: url("../fonts/cormorant-garamond-latin-600-normal.woff2") format("woff2"); }
@@ -30,7 +30,10 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-section[id], .category[id] { scroll-margin-top: var(--hdr); } /* #43: = sticky header height */
+section[id], .category[id] { scroll-margin-top: var(--hdr); } /* #43: = sticky header height; #57: --hdr is re-measured by js/nav.js */
+/* #57: every menu-target section (any <section id>) fills the screen under the header; content keeps its order, centred in the extra space */
+section[id] { min-height: calc(100vh - var(--hdr)); min-height: calc(100svh - var(--hdr)); display: flex; flex-direction: column; justify-content: center; }
+section[id] > * { width: 100%; } /* #57: keeps centred max-width blocks (margin: 0 auto) at full width inside the flex column */
 body {
   margin: 0;
   background: var(--beige);
@@ -329,7 +332,6 @@ main > section + section { border-top: 1px solid var(--gold); }
 .hours-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; border-bottom: 1px solid rgba(224, 177, 58, 0.35); }
 .hours-day { font-size: 17px; font-weight: 600; color: var(--beige); }
 .hours-time { font-size: 17px; font-weight: 500; color: #F3D27A; white-space: nowrap; }
-.oh-cta { margin-top: 8px; }
 .oh-photo { position: relative; min-height: 560px; background: #C8A27C center/cover no-repeat; }
 .oh-fade { position: absolute; inset: 0; background: linear-gradient(90deg, #3A2416 0%, rgba(58, 36, 22, 0.55) 22%, rgba(58, 36, 22, 0) 50%); }
 
@@ -376,7 +378,6 @@ main > section + section { border-top: 1px solid var(--gold); }
   .promise h2 { font-size: 40px; }
   .mob-only { display: inline; }
 }
-@media (max-width: 600px) { .oh-cta { display: flex; justify-content: center; } } /* #40 */
 @media (max-width: 380px) { .hours-day, .hours-time { font-size: 15px; } }
 @media (max-width: 600px) { .promise-eyebrow { font-size: 30px; } } /* #33 */
 
@@ -412,7 +413,7 @@ main > section + section { border-top: 1px solid var(--gold); }
   background: linear-gradient(135deg, #F8DE8E, #EDC14B); color: #2B1D14; font-family: var(--serif); font-weight: 700; font-size: 20px; }
 .h-step strong { display: block; font-family: var(--serif); font-weight: 700; font-size: 24px; line-height: 1.2; color: #FBF3E4; }
 .h-step .sub { display: block; margin-top: 2px; font-size: 14px; line-height: 1.5; color: #D9C4A8; }
-.h-step.dim { opacity: .7; } /* #51 */
+.h-step.dim { opacity: .85; } /* #51, #53: lowest 5% step with sub-text >= 4.5:1 */
 .unlocked .h-step.dim { opacity: 1; }
 .hotel-btn { width: 100%; min-height: 52px; font-size: 20px; }
 .hotels-notes { margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(224, 177, 58, 0.25); text-align: center; }
@@ -514,3 +515,19 @@ main > section + section { border-top: 1px solid var(--gold); }
 @media (hover: hover) and (min-width: 601px) {
   .nav ul a:hover .nl::after { transform: scaleX(1); }
 }
+
+
+/* ================= v7 additions ================= */
+
+/* #54 description + benefits on the service cards */
+.benefits { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.b-desc { margin: 0; font-size: 14px; line-height: 1.5; color: var(--muted); }
+.b-label { display: block; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--gold-dark); }
+.b-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.b-list li { display: flex; align-items: flex-start; gap: 8px; font-size: 14px; line-height: 1.5; color: var(--brown); }
+.b-tick { flex: none; width: 16px; height: 16px; margin-top: 2.5px; display: block; } /* centres the tick on the first 21px line */
+.b-tick svg { display: block; }
+.b-text { min-width: 0; }
+
+/* #56 Contact button: Explore services */
+.contact-btn { min-height: 52px; gap: 10px; font-size: 20px; font-weight: 600; border-radius: 16px; } /* #56: matches .hotel-btn as built in v6 (20px; item text says 19px) */
